@@ -273,7 +273,7 @@ Window {
         id: a0x
         target: rectG0
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect0.x
         to: grect0.to
@@ -296,7 +296,7 @@ Window {
         id: a0y
         target: rectG0
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect0.y
         to: grect0.toY
@@ -333,7 +333,7 @@ Window {
         id: a1x
         target: rectG1
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect1.x
         to: grect1.to
@@ -356,7 +356,7 @@ Window {
         id: a1y
         target: rectG1
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect1.y
         to: grect1.toY
@@ -393,7 +393,7 @@ Window {
         id: a2x
         target: rectG2
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect2.x
         to: grect2.to
@@ -416,7 +416,7 @@ Window {
         id: a2y
         target: rectG2
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect2.y
         to: grect2.toY
@@ -453,7 +453,7 @@ Window {
         id: a3x
         target: rectG3
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect3.x
         to: grect3.to
@@ -476,7 +476,7 @@ Window {
         id: a3y
         target: rectG3
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect3.y
         to: grect3.toY
@@ -513,7 +513,7 @@ Window {
         id: a4x
         target: rectG4
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect4.x
         to: grect4.to
@@ -536,7 +536,7 @@ Window {
         id: a4y
         target: rectG4
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect4.y
         to: grect4.toY
@@ -573,7 +573,7 @@ Window {
         id: a5x
         target: rectG5
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect5.x
         to: grect5.to
@@ -596,7 +596,7 @@ Window {
         id: a5y
         target: rectG5
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect5.y
         to: grect5.toY
@@ -633,7 +633,7 @@ Window {
         id: a6x
         target: rectG6
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect6.x
         to: grect6.to
@@ -656,7 +656,7 @@ Window {
         id: a6y
         target: rectG6
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect6.y
         to: grect6.toY
@@ -692,7 +692,7 @@ Window {
         id: a7x
         target: rectG7
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect7.x
         to: grect7.to
@@ -715,7 +715,7 @@ Window {
         id: a7y
         target: rectG7
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect7.y
         to: grect7.toY
@@ -752,7 +752,7 @@ Window {
         id: a8x
         target: rectG8
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect8.x
         to: grect8.to
@@ -775,7 +775,7 @@ Window {
         id: a8y
         target: rectG8
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect8.y
         to: grect8.toY
@@ -811,7 +811,7 @@ Window {
         id: a9x
         target: rectG9
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect9.x
         to: grect9.to
@@ -834,7 +834,7 @@ Window {
         id: a9y
         target: rectG9
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect9.y
         to: grect9.toY
@@ -870,7 +870,7 @@ Window {
         id: a10x
         target: rectG10
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect10.x
         to: grect10.to
@@ -893,7 +893,7 @@ Window {
         id: a10y
         target: rectG10
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect10.y
         to: grect10.toY
@@ -929,7 +929,7 @@ Window {
         id: a11x
         target: rectG11
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect11.x
         to: grect11.to
@@ -952,7 +952,7 @@ Window {
         id: a11y
         target: rectG11
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect11.y
         to: grect11.toY
@@ -989,7 +989,7 @@ Window {
         id: a12x
         target: rectG12
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect12.x
         to: grect12.to
@@ -1012,7 +1012,7 @@ Window {
         id: a12y
         target: rectG12
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect12.y
         to: grect12.toY
@@ -1049,7 +1049,7 @@ Window {
         id: a13x
         target: rectG13
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect13.x
         to: grect13.to
@@ -1072,7 +1072,7 @@ Window {
         id: a13y
         target: rectG13
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect13.y
         to: grect13.toY
@@ -1109,7 +1109,7 @@ Window {
         id: a14x
         target: rectG14
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect14.x
         to: grect14.to
@@ -1132,7 +1132,7 @@ Window {
         id: a14y
         target: rectG14
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect14.y
         to: grect14.toY
@@ -1169,7 +1169,7 @@ Window {
         id: a15x
         target: rectG15
         property: "x"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect15.x
         to: grect15.to
@@ -1192,7 +1192,7 @@ Window {
         id: a15y
         target: rectG15
         property: "y"
-        duration: 300
+        duration: 500
         easing.type: Easing.OutBounce
         from: grect15.y
         to: grect15.toY
