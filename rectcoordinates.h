@@ -17,7 +17,7 @@ public:
 
     double dY() const;
     void setDY(double newDY);
-    bool busy;
+    int busy;
 
 signals:
     void dXChanged();

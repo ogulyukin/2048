@@ -9,6 +9,7 @@ CONFIG += c++11
 SOURCES += \
         gameprocessor.cpp \
         gamerect.cpp \
+        keyboardfilter.cpp \
         main.cpp \
         rectcoordinates.cpp \
         viewchanger.cpp
@@ -29,5 +30,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     gameprocessor.h \
     gamerect.h \
+    keyboardfilter.h \
     rectcoordinates.h \
     viewchanger.h

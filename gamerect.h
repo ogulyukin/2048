@@ -11,6 +11,8 @@ class GameRect : public QObject
     Q_PROPERTY(double x READ x WRITE setX NOTIFY xChanged)
     Q_PROPERTY(double y READ y WRITE setY NOTIFY yChanged)
     Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
+    Q_PROPERTY(double to READ to WRITE setTo NOTIFY toChanged)
+    Q_PROPERTY(double toY READ toY WRITE setToY NOTIFY toYChanged)
 
 public:
     GameRect(QObject *parent = nullptr);
@@ -31,12 +33,24 @@ public:
     void setVisible(bool newVisible);
     void clear();
 
+    double to() const;
+    void setTo(double newTo);
+
+    bool animDirect;
+
+    double toY() const;
+    void setToY(double newToY);
+
 signals:
     void colorChanged();
     void textChanged();
     void xChanged();
     void yChanged();
     void visibleChanged();
+
+    void toChanged();
+
+    void toYChanged();
 
 public slots:
 
@@ -46,6 +60,8 @@ private:
     double m_x;
     double m_y;
     bool m_visible;
+    double m_to;
+    double m_toY;
 };
 
 #endif // GAMERECT_H

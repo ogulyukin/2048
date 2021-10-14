@@ -1,8 +1,8 @@
 #include "rectcoordinates.h"
 
-RectCoordinates::RectCoordinates(QObject *parent) : QObject(parent), busy(false)
+RectCoordinates::RectCoordinates(QObject *parent) : QObject(parent)
 {
-
+    busy = -1;
 }
 
 double RectCoordinates::dX() const

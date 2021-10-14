@@ -10,7 +10,9 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
-    ViewChanger vchanger;
+    KeyboardFilter* filter = new KeyboardFilter();
+    app.installEventFilter(filter);
+    ViewChanger vchanger(filter);
     QQmlApplicationEngine engine;
     int count = 0;
     for(auto it = vchanger.rectangles.begin(); it != vchanger.rectangles.end(); it++){

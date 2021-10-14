@@ -7,6 +7,7 @@ GameRect::GameRect(QObject *parent): QObject(parent)
     m_visible = false;
     m_x = 0;
     m_y = 0;
+    m_to = 0;
 }
 
 const QString &GameRect::color() const
@@ -78,7 +79,33 @@ void GameRect::clear()
 {
     m_color = "beige";
     m_text = "2";
-    m_visible = false;
     m_x = 0;
     m_y = 0;
+    setVisible(false);
+}
+
+double GameRect::to() const
+{
+    return m_to;
+}
+
+void GameRect::setTo(double newTo)
+{
+    if (qFuzzyCompare(m_to, newTo))
+        return;
+    m_to = newTo;
+    emit toChanged();
+}
+
+double GameRect::toY() const
+{
+    return m_toY;
+}
+
+void GameRect::setToY(double newToY)
+{
+    if (qFuzzyCompare(m_toY, newToY))
+        return;
+    m_toY = newToY;
+    emit toYChanged();
 }
