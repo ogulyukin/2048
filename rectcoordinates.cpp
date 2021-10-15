@@ -12,8 +12,6 @@ double RectCoordinates::dX() const
 
 void RectCoordinates::setDX(double newDX)
 {
-    if (qFuzzyCompare(m_dX, newDX))
-        return;
     m_dX = newDX;
     emit dXChanged();
 }
@@ -25,8 +23,6 @@ double RectCoordinates::dY() const
 
 void RectCoordinates::setDY(double newDY)
 {
-    if (qFuzzyCompare(m_dY, newDY))
-        return;
     m_dY = newDY;
     emit dYChanged();
 }

@@ -12,6 +12,7 @@ SOURCES += \
         keyboardfilter.cpp \
         main.cpp \
         rectcoordinates.cpp \
+        scorechecker.cpp \
         viewchanger.cpp
 
 RESOURCES += qml.qrc
@@ -32,4 +33,5 @@ HEADERS += \
     gamerect.h \
     keyboardfilter.h \
     rectcoordinates.h \
+    scorechecker.h \
     viewchanger.h

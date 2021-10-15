@@ -12,43 +12,56 @@ ViewChanger::ViewChanger(KeyboardFilter* filter, QObject *parent) : QObject(pare
     }
     connect(filter, &KeyboardFilter::nextTurn, this, &ViewChanger::makeTurn);
     turnProcessing = true;
+    timer = new QTimer(this);
+    score = new ScoreChecker(this);
 }
 
 void ViewChanger::newGame()
 {
     qDebug() << "**********************New game**********************";
     clearGameRect();
+    score->resetScore();
     GameProcessor::newGame(&rectangles, &rectDim);
     turnProcessing = false;
+    score->newRectCount = -1;
 }
 
 void ViewChanger::makeTurn(int direction)
 {
     if(turnProcessing)
         return;
+//    if(score->newRectCount != -1)
+//        GameProcessor::setColor(rectangles.at(score->newRectCount));
     turnProcessing = true;
     qDebug() << "Pressed key: " << direction;
     switch (direction) {
     case 0:
-        GameProcessor::turnLeft(&rectangles, &rectDim);
+        GameProcessor::turnLeft(&rectangles, &rectDim, score);
         break;
     case 1:
-        GameProcessor::turnRight(&rectangles, &rectDim);
+        GameProcessor::turnRight(&rectangles, &rectDim, score);
         break;
     case 2:
-        GameProcessor::turnUp(&rectangles, &rectDim);
+        GameProcessor::turnUp(&rectangles, &rectDim, score);
         break;
     case 3:
-        GameProcessor::turnDown(&rectangles, &rectDim);
+        GameProcessor::turnDown(&rectangles, &rectDim, score);
     }
-    reporter01();
+    //reporter01();
+    timer->start(1000);
     refreshView();
-    bool result = GameProcessor::generateNewGameRect(&rectangles, &rectDim);
+    int result = GameProcessor::generateNewGameRect(&rectangles, &rectDim);
+    checkView();
+    timer->start(1000);
     turnProcessing = false;
-    if(!result)
+    if(result == -1)
     {
         qDebug() << "MakeTurn: Game Over!";
-        emit gameOVER();
+        score->endGame();
+    }else
+    {
+        //score->newRectCount = result;
+        //rectangles.at(result)->setColor("red");
     }
 }
 
@@ -95,6 +108,7 @@ double ViewChanger::getRightcoordinateX(int count)
             return it->dX();
         }
     }
+    qDebug() << "Error get right X for GRect: " << count;
     return 0;
 }
 
@@ -107,7 +121,28 @@ double ViewChanger::getRightcoordinateY(int count)
             return it->dY();
         }
     }
-    return 0;
+        qDebug() << "Error get right Y for GRect: " << count;
+        return 0;
+}
+
+void ViewChanger::checkView()
+{
+    int count = 0;
+    qDebug() << "*******************Report*************************";
+    foreach(auto it, rectDim)
+    {
+        if(it->busy != -1)
+        {
+            if(!rectangles.at(it->busy)->visible())
+            {
+                qDebug() << "Error: find hiden GRect in rectDim at cell: " << count;
+                it->busy = -1;
+            }
+        }
+        qDebug() << "Cell: " << count << " busy status: " << it->busy;
+        count++;
+    }
+    qDebug() << "*******************Report*************************";
 }
 
 void ViewChanger::reporter01()
