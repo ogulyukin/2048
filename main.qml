@@ -9,10 +9,11 @@ Window {
     height: 570
     visible: true
     title: qsTr("Игра 2048")
+    property int animDuration: 300
     Rectangle{
         anchors.fill: parent
         radius: 5
-        color: "darkgray"
+        color: "lavender"
         Grid{
             spacing: 10
             anchors.fill: parent
@@ -50,6 +51,9 @@ Window {
                     function onBestScoreChanged(){
                         bScoreText.text = scorecounter.bestScore
                     }
+                }
+                Component.onCompleted: {
+                    bScoreText.text = scorecounter.bestScore
                 }
             }
             Rectangle{
@@ -124,9 +128,6 @@ Window {
 
             StaticRect{
                 id: rect00
-                Text{
-                    text: "0"
-                }
                 onXChanged: {
                     dimension0.dX = x;
                 }
@@ -154,9 +155,7 @@ Window {
             }
             StaticRect{
                 id: rect03
-                Text{
-                    text: "3"
-                }
+
                 onXChanged: {
                     dimension3.dX = x;
                 }
@@ -166,9 +165,7 @@ Window {
             }
             StaticRect{
                 id: rect10
-                Text{
-                    text: "4"
-                }
+
                 onXChanged: {
                     dimension4.dX = x;
                 }
@@ -196,9 +193,7 @@ Window {
             }
             StaticRect{
                 id: rect13
-                Text{
-                    text: "7"
-                }
+
                 onXChanged: {
                     dimension7.dX = x;
                 }
@@ -208,9 +203,7 @@ Window {
             }
             StaticRect{
                 id: rect20
-                Text{
-                    text: "8"
-                }
+
                 onXChanged: {
                     dimension8.dX = x;
                 }
@@ -238,9 +231,7 @@ Window {
             }
             StaticRect{
                 id: rect23
-                Text{
-                    text: "11"
-                }
+
                 onXChanged: {
                     dimension11.dX = x;
                 }
@@ -250,9 +241,7 @@ Window {
             }
             StaticRect{
                 id: rect30
-                Text{
-                    text: "12"
-                }
+
                 onXChanged: {
                     dimension12.dX = x;
                 }
@@ -280,9 +269,7 @@ Window {
             }
             StaticRect{
                 id: rect33
-                Text{
-                    text: "15"
-                }
+
                 onXChanged: {
                     dimension15.dX = x;
                 }
@@ -305,51 +292,18 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "0"
-        }
+
     }
 
-    NumberAnimation {
-        id: a0x
-        target: rectG0
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect0.x
-        to: grect0.to
-        onStopped: {
-            grect0.setX = grect0.to;
-            //console.log("grect0: Reset X")
-        }
-    }
+
     Connections{
         target: grect0
         function onToChanged(){
-            //console.log("Got start X animation grect0");
             a0x.from = grect0.x
             a0x.to =  grect0.to;
             a0x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a0y
-        target: rectG0
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect0.y
-        to: grect0.toY
-        onStopped: {
-            grect0.setY = grect0.toY;
-            //console.log("grect0: Reset Y")
-        }
-    }
-    Connections{
-        target: grect0
         function onToYChanged(){
-            //console.log("Got start Y animation grect0");
             a0y.from = grect0.y
             a0y.to =  grect0.toY;
             a0y.restart();
@@ -368,57 +322,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "1"
-        }
-    }
 
-    NumberAnimation {
-        id: a1x
-        target: rectG1
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect1.x
-        to: grect1.to
-        onStopped: {
-            grect1.setX = grect1.to;
-            //console.log("grect1: Reset X")
-        }
     }
     Connections{
         target: grect1
         function onToChanged(){
-            //console.log("Got start X animation grect1");
             a1x.from = grect1.x
             a1x.to =  grect1.to;
             a1x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a1y
-        target: rectG1
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect1.y
-        to: grect1.toY
-        onStopped: {
-            grect1.setY = grect1.toY;
-            //console.log("grect1: Reset Y")
-        }
-    }
-    Connections{
-        target: grect1
         function onToYChanged(){
-            //console.log("Got start Y animation grect1");
             a1y.from = grect1.y
             a1y.to =  grect1.toY;
             a1y.restart();
         }
     }
-
     StaticRect{
         id: rectG2
         color: grect2.color
@@ -431,57 +349,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "2"
-        }
-    }
 
-    NumberAnimation {
-        id: a2x
-        target: rectG2
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect2.x
-        to: grect2.to
-        onStopped: {
-            grect2.setX = grect2.to;
-            //console.log("grect2: Reset X")
-        }
     }
     Connections{
         target: grect2
         function onToChanged(){
-            //console.log("Got start X animation grect2");
             a2x.from = grect2.x
             a2x.to =  grect2.to;
             a2x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a2y
-        target: rectG2
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect2.y
-        to: grect2.toY
-        onStopped: {
-            grect2.setY = grect2.toY;
-            //console.log("grect2: Reset Y")
-        }
-    }
-    Connections{
-        target: grect2
         function onToYChanged(){
-            //console.log("Got start Y animation grect2");
             a2y.from = grect2.y
             a2y.to =  grect2.toY;
             a2y.restart();
         }
     }
-
     StaticRect{
         id: rectG3
         color: grect3.color
@@ -494,57 +376,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "3"
-        }
-    }
 
-    NumberAnimation {
-        id: a3x
-        target: rectG3
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect3.x
-        to: grect3.to
-        onStopped: {
-            grect3.setX = grect3.to;
-            //console.log("grect3: Reset X")
-        }
     }
     Connections{
         target: grect3
         function onToChanged(){
-            //console.log("Got start X animation grect3");
             a3x.from = grect3.x
             a3x.to =  grect3.to;
             a3x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a3y
-        target: rectG3
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect3.y
-        to: grect3.toY
-        onStopped: {
-            grect3.setY = grect3.toY;
-            //console.log("grect3: Reset Y")
-        }
-    }
-    Connections{
-        target: grect3
         function onToYChanged(){
-            //console.log("Got start Y animation grect3");
             a3y.from = grect3.y
             a3y.to =  grect3.toY;
             a3y.restart();
         }
     }
-
     StaticRect{
         id: rectG4
         color: grect4.color
@@ -557,57 +403,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "4"
-        }
-    }
 
-    NumberAnimation {
-        id: a4x
-        target: rectG4
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect4.x
-        to: grect4.to
-        onStopped: {
-            grect4.setX = grect4.to;
-            //console.log("grect4: Reset X")
-        }
     }
     Connections{
         target: grect4
         function onToChanged(){
-            //console.log("Got start X animation grect4");
             a4x.from = grect4.x
             a4x.to =  grect4.to;
             a4x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a4y
-        target: rectG4
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect4.y
-        to: grect4.toY
-        onStopped: {
-            grect4.setY = grect4.toY;
-            //console.log("grect4: Reset Y")
-        }
-    }
-    Connections{
-        target: grect4
         function onToYChanged(){
-            //console.log("Got start Y animation grect4");
             a4y.from = grect4.y
             a4y.to =  grect4.toY;
             a4y.restart();
         }
     }
-
     StaticRect{
         id: rectG5
         color: grect5.color
@@ -620,57 +430,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "5"
-        }
-    }
 
-    NumberAnimation {
-        id: a5x
-        target: rectG5
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect5.x
-        to: grect5.to
-        onStopped: {
-            grect5.setX = grect5.to;
-            //console.log("grect5: Reset X")
-        }
     }
     Connections{
         target: grect5
         function onToChanged(){
-            //console.log("Got start X animation grect5");
             a5x.from = grect5.x
             a5x.to =  grect5.to;
             a5x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a5y
-        target: rectG5
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect5.y
-        to: grect5.toY
-        onStopped: {
-            grect5.setY = grect5.toY;
-            //console.log("grect5: Reset Y")
-        }
-    }
-    Connections{
-        target: grect5
         function onToYChanged(){
-            //console.log("Got start Y animation grect5");
             a5y.from = grect5.y
             a5y.to =  grect5.toY;
             a5y.restart();
         }
     }
-
     StaticRect{
         id: rectG6
         color: grect6.color
@@ -683,51 +457,16 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "6"
-        }
-    }
 
-    NumberAnimation {
-        id: a6x
-        target: rectG6
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect6.x
-        to: grect6.to
-        onStopped: {
-            grect6.setX = grect6.to;
-            //console.log("grect6: Reset X")
-        }
     }
     Connections{
         target: grect6
         function onToChanged(){
-            //console.log("Got start X animation grect6");
             a6x.from = grect6.x
             a6x.to =  grect6.to;
             a6x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a6y
-        target: rectG6
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect6.y
-        to: grect6.toY
-        onStopped: {
-            grect6.setY = grect6.toY;
-            //console.log("grect6: Reset Y")
-        }
-    }
-    Connections{
-        target: grect6
         function onToYChanged(){
-            //console.log("Got start Y animation grect6");
             a6y.from = grect6.y
             a6y.to =  grect6.toY;
             a6y.restart();
@@ -745,57 +484,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "7"
-        }
-    }
 
-    NumberAnimation {
-        id: a7x
-        target: rectG7
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect7.x
-        to: grect7.to
-        onStopped: {
-            grect7.setX = grect7.to;
-            //console.log("grect7: Reset X")
-        }
     }
     Connections{
         target: grect7
         function onToChanged(){
-            //console.log("Got start X animation grect7");
             a7x.from = grect7.x
             a7x.to =  grect7.to;
             a7x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a7y
-        target: rectG7
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect7.y
-        to: grect7.toY
-        onStopped: {
-            grect7.setY = grect7.toY;
-            //console.log("grect7: Reset Y")
-        }
-    }
-    Connections{
-        target: grect7
         function onToYChanged(){
-            //console.log("Got start Y animation grect7");
             a7y.from = grect7.y
             a7y.to =  grect7.toY;
             a7y.restart();
         }
     }
-
     StaticRect{
         id: rectG8
         color: grect8.color
@@ -808,51 +511,16 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "8"
-        }
-    }
 
-    NumberAnimation {
-        id: a8x
-        target: rectG8
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect8.x
-        to: grect8.to
-        onStopped: {
-            grect8.setX = grect8.to;
-            //console.log("grect8: Reset X")
-        }
     }
     Connections{
         target: grect8
         function onToChanged(){
-            console.log("Got start X animation grect8");
             a8x.from = grect8.x
             a8x.to =  grect8.to;
             a8x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a8y
-        target: rectG8
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect8.y
-        to: grect8.toY
-        onStopped: {
-            grect8.setY = grect8.toY;
-            //console.log("grect8: Reset Y")
-        }
-    }
-    Connections{
-        target: grect8
         function onToYChanged(){
-            //console.log("Got start Y animation grect8");
             a8y.from = grect8.y
             a8y.to =  grect8.toY;
             a8y.restart();
@@ -870,51 +538,16 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "9"
-        }
-    }
 
-    NumberAnimation {
-        id: a9x
-        target: rectG9
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect9.x
-        to: grect9.to
-        onStopped: {
-            grect9.setX = grect9.to;
-            //console.log("grect9: Reset X")
-        }
     }
     Connections{
         target: grect9
         function onToChanged(){
-            ///console.log("Got start X animation grect9");
             a9x.from = grect9.x
             a9x.to =  grect9.to;
             a9x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a9y
-        target: rectG9
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect9.y
-        to: grect9.toY
-        onStopped: {
-            grect9.setY = grect9.toY;
-            //console.log("grect9: Reset Y")
-        }
-    }
-    Connections{
-        target: grect9
         function onToYChanged(){
-            //console.log("Got start Y animation grect9");
             a9y.from = grect9.y
             a9y.to =  grect9.toY;
             a9y.restart();
@@ -932,51 +565,16 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "10"
-        }
-    }
 
-    NumberAnimation {
-        id: a10x
-        target: rectG10
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect10.x
-        to: grect10.to
-        onStopped: {
-            grect10.setX = grect10.to;
-            //console.log("grect10: Reset X")
-        }
     }
     Connections{
         target: grect10
         function onToChanged(){
-            //console.log("Got start X animation grect10");
             a10x.from = grect10.x
             a10x.to =  grect10.to;
             a10x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a10y
-        target: rectG10
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect10.y
-        to: grect10.toY
-        onStopped: {
-            grect10.setY = grect10.toY;
-            //console.log("grect10: Reset Y")
-        }
-    }
-    Connections{
-        target: grect10
         function onToYChanged(){
-            //console.log("Got start Y animation grect10");
             a10y.from = grect10.y
             a10y.to =  grect10.toY;
             a10y.restart();
@@ -994,57 +592,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "11"
-        }
-    }
 
-    NumberAnimation {
-        id: a11x
-        target: rectG11
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect11.x
-        to: grect11.to
-        onStopped: {
-            grect11.setX = grect11.to;
-            //console.log("grect11: Reset X")
-        }
     }
     Connections{
         target: grect11
         function onToChanged(){
-            //console.log("Got start X animation grect11");
             a11x.from = grect11.x
             a11x.to =  grect11.to;
             a11x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a11y
-        target: rectG11
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect11.y
-        to: grect11.toY
-        onStopped: {
-            grect11.setY = grect11.toY;
-            //console.log("grect11: Reset Y")
-        }
-    }
-    Connections{
-        target: grect11
         function onToYChanged(){
-            //console.log("Got start Y animation grect11");
             a11y.from = grect11.y
             a11y.to =  grect11.toY;
             a11y.restart();
         }
     }
-
     StaticRect{
         id: rectG12
         color: grect12.color
@@ -1057,57 +619,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "12"
-        }
-    }
 
-    NumberAnimation {
-        id: a12x
-        target: rectG12
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect12.x
-        to: grect12.to
-        onStopped: {
-            grect12.setX = grect12.to;
-            //console.log("grect12: Reset X")
-        }
     }
     Connections{
         target: grect12
         function onToChanged(){
-            //console.log("Got start X animation grect12");
             a12x.from = grect12.x
             a12x.to =  grect12.to;
             a12x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a12y
-        target: rectG12
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect12.y
-        to: grect12.toY
-        onStopped: {
-            grect12.setY = grect12.toY;
-            //console.log("grect12: Reset Y")
-        }
-    }
-    Connections{
-        target: grect12
         function onToYChanged(){
-            //console.log("Got start Y animation grect12");
             a12y.from = grect12.y
             a12y.to =  grect12.toY;
             a12y.restart();
         }
     }
-
     StaticRect{
         id: rectG13
         color: grect13.color
@@ -1120,57 +646,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "13"
-        }
-    }
 
-    NumberAnimation {
-        id: a13x
-        target: rectG13
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect13.x
-        to: grect13.to
-        onStopped: {
-            grect13.setX = grect13.to;
-            //console.log("grect13: Reset X")
-        }
     }
     Connections{
         target: grect13
         function onToChanged(){
-            //console.log("Got start X animation grect13");
             a13x.from = grect13.x
             a13x.to =  grect13.to;
             a13x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a13y
-        target: rectG13
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect13.y
-        to: grect13.toY
-        onStopped: {
-            grect13.setY = grect13.toY;
-            console.log("grect13: Reset Y")
-        }
-    }
-    Connections{
-        target: grect13
         function onToYChanged(){
-            //console.log("Got start Y animation grect13");
             a13y.from = grect13.y
             a13y.to =  grect13.toY;
             a13y.restart();
         }
     }
-
     StaticRect{
         id: rectG14
         color: grect14.color
@@ -1183,57 +673,21 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "14"
-        }
-    }
 
-    NumberAnimation {
-        id: a14x
-        target: rectG14
-        property: "x"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect14.x
-        to: grect14.to
-        onStopped: {
-            grect14.setX = grect14.to;
-            //console.log("grect14: Reset X")
-        }
     }
     Connections{
         target: grect14
         function onToChanged(){
-            //console.log("Got start X animation grect14");
             a14x.from = grect14.x
             a14x.to =  grect14.to;
             a14x.restart();
         }
-    }
-
-    NumberAnimation {
-        id: a14y
-        target: rectG14
-        property: "y"
-        duration: 500
-        easing.type: Easing.OutBounce
-        from: grect14.y
-        to: grect14.toY
-        onStopped: {
-            grect14.setY = grect14.toY;
-            //console.log("grect14: Reset Y")
-        }
-    }
-    Connections{
-        target: grect14
         function onToYChanged(){
-            //console.log("Got start Y animation grect14");
             a14y.from = grect14.y
             a14y.to = grect14.toY;
             a14y.restart();
         }
     }
-
     StaticRect{
         id: rectG15
         color: grect15.color
@@ -1246,31 +700,378 @@ Window {
             font.pointSize: 24
             anchors.centerIn: parent
         }
-        Text{
-            text: "15"
+
+    }
+    Connections{
+        target: grect15
+        function onToChanged(){
+            a15x.from = grect15.x
+            a15x.to =  grect15.to;
+            a15x.restart();
+        }
+        function onToYChanged(){
+            a15y.from = grect15.y
+            a15y.to =  grect15.toY;
+            a15y.restart();
         }
     }
 
+
+    //X animations:
+
+    NumberAnimation {
+        id: a0x
+        target: rectG0
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect0.x
+        to: grect0.to
+        onStopped: {
+            grect0.setX = grect0.to;
+            processor.setInProcess(false)
+        }
+    }
+    NumberAnimation {
+        id: a1x
+        target: rectG1
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect1.x
+        to: grect1.to
+        onStopped: {
+            grect1.setX = grect1.to;
+            processor.setInProcess(false)
+        }
+    }
+    NumberAnimation {
+        id: a2x
+        target: rectG2
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect2.x
+        to: grect2.to
+        onStopped: {
+            grect2.setX = grect2.to;
+        }
+    }
+    NumberAnimation {
+        id: a3x
+        target: rectG3
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect3.x
+        to: grect3.to
+        onStopped: {
+            grect3.setX = grect3.to;
+        }
+    }
+    NumberAnimation {
+        id: a4x
+        target: rectG4
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect4.x
+        to: grect4.to
+        onStopped: {
+            grect4.setX = grect4.to;
+        }
+    }
+    NumberAnimation {
+        id: a5x
+        target: rectG5
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect5.x
+        to: grect5.to
+        onStopped: {
+            grect5.setX = grect5.to;
+        }
+    }
+    NumberAnimation {
+        id: a6x
+        target: rectG6
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect6.x
+        to: grect6.to
+        onStopped: {
+            grect6.setX = grect6.to;
+        }
+    }
+    NumberAnimation {
+        id: a7x
+        target: rectG7
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect7.x
+        to: grect7.to
+        onStopped: {
+            grect7.setX = grect7.to;
+        }
+    }
+    NumberAnimation {
+        id: a8x
+        target: rectG8
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect8.x
+        to: grect8.to
+        onStopped: {
+            grect8.setX = grect8.to;
+        }
+    }
+    NumberAnimation {
+        id: a9x
+        target: rectG9
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect9.x
+        to: grect9.to
+        onStopped: {
+            grect9.setX = grect9.to;
+        }
+    }
+    NumberAnimation {
+        id: a10x
+        target: rectG10
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect10.x
+        to: grect10.to
+        onStopped: {
+            grect10.setX = grect10.to;
+        }
+    }
+    NumberAnimation {
+        id: a11x
+        target: rectG11
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect11.x
+        to: grect11.to
+        onStopped: {
+            grect11.setX = grect11.to;
+        }
+    }
+    NumberAnimation {
+        id: a12x
+        target: rectG12
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect12.x
+        to: grect12.to
+        onStopped: {
+            grect12.setX = grect12.to;
+        }
+    }
+    NumberAnimation {
+        id: a13x
+        target: rectG13
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect13.x
+        to: grect13.to
+        onStopped: {
+            grect13.setX = grect13.to;
+        }
+    }
     NumberAnimation {
         id: a15x
         target: rectG15
         property: "x"
-        duration: 500
+        duration: animDuration
         easing.type: Easing.OutBounce
         from: grect15.x
         to: grect15.to
         onStopped: {
             grect15.setX = grect15.to;
-            //console.log("grect15: Reset X")
         }
     }
-    Connections{
-        target: grect15
-        function onToChanged(){
-            //console.log("Got start X animation grect15");
-            a15x.from = grect15.x
-            a15x.to =  grect15.to;
-            a15x.restart();
+    NumberAnimation {
+        id: a14x
+        target: rectG14
+        property: "x"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect14.x
+        to: grect14.to
+        onStopped: {
+            grect14.setX = grect14.to;
+        }
+    }
+    //Y animations:
+
+    NumberAnimation {
+        id: a0y
+        target: rectG0
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect0.y
+        to: grect0.toY
+        onStopped: {
+            grect0.setY = grect0.toY;
+            processor.setInProcess(false)
+        }
+    }
+    NumberAnimation {
+        id: a1y
+        target: rectG1
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect1.y
+        to: grect1.toY
+        onStopped: {
+            grect1.setY = grect1.toY;
+            processor.setInProcess(false)
+        }
+    }
+    NumberAnimation {
+        id: a2y
+        target: rectG2
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect2.y
+        to: grect2.toY
+        onStopped: {
+            grect2.setY = grect2.toY;
+        }
+    }
+    NumberAnimation {
+        id: a3y
+        target: rectG3
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect3.y
+        to: grect3.toY
+        onStopped: {
+            grect3.setY = grect3.toY;
+        }
+    }
+    NumberAnimation {
+        id: a4y
+        target: rectG4
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect4.y
+        to: grect4.toY
+        onStopped: {
+            grect4.setY = grect4.toY;
+        }
+    }
+    NumberAnimation {
+        id: a5y
+        target: rectG5
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect5.y
+        to: grect5.toY
+        onStopped: {
+            grect5.setY = grect5.toY;
+        }
+    }
+    NumberAnimation {
+        id: a6y
+        target: rectG6
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect6.y
+        to: grect6.toY
+        onStopped: {
+            grect6.setY = grect6.toY;
+        }
+    }
+    NumberAnimation {
+        id: a7y
+        target: rectG7
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect7.y
+        to: grect7.toY
+        onStopped: {
+            grect7.setY = grect7.toY;
+        }
+    }
+    NumberAnimation {
+        id: a8y
+        target: rectG8
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect8.y
+        to: grect8.toY
+        onStopped: {
+            grect8.setY = grect8.toY;
+        }
+    }
+    NumberAnimation {
+        id: a9y
+        target: rectG9
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect9.y
+        to: grect9.toY
+        onStopped: {
+            grect9.setY = grect9.toY;
+        }
+    }
+    NumberAnimation {
+        id: a10y
+        target: rectG10
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect10.y
+        to: grect10.toY
+        onStopped: {
+            grect10.setY = grect10.toY;
+        }
+    }
+    NumberAnimation {
+        id: a11y
+        target: rectG11
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect11.y
+        to: grect11.toY
+        onStopped: {
+            grect11.setY = grect11.toY;
+        }
+    }
+
+    NumberAnimation {
+        id: a12y
+        target: rectG12
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect12.y
+        to: grect12.toY
+        onStopped: {
+            grect12.setY = grect12.toY;
         }
     }
 
@@ -1278,25 +1079,41 @@ Window {
         id: a15y
         target: rectG15
         property: "y"
-        duration: 500
+        duration: animDuration
         easing.type: Easing.OutBounce
         from: grect15.y
         to: grect15.toY
         onStopped: {
             grect15.setY = grect15.toY;
-            //console.log("grect1: Reset Y")
-        }
-    }
-    Connections{
-        target: grect15
-        function onToYChanged(){
-            //console.log("Got start Y animation grect15");
-            a15y.from = grect15.y
-            a15y.to =  grect15.toY;
-            a15y.restart();
         }
     }
 
+    NumberAnimation {
+        id: a14y
+        target: rectG14
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect14.y
+        to: grect14.toY
+        onStopped: {
+            grect14.setY = grect14.toY;
+        }
+    }
+
+    NumberAnimation {
+        id: a13y
+        target: rectG13
+        property: "y"
+        duration: animDuration
+        easing.type: Easing.OutBounce
+        from: grect13.y
+        to: grect13.toY
+        onStopped: {
+            grect13.setY = grect13.toY;
+            console.log("grect13: Reset Y")
+        }
+    }
 
     Dialog{
         id: rulesDialog

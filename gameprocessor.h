@@ -1,31 +1,63 @@
 #ifndef GAMEPROCESSOR_H
 #define GAMEPROCESSOR_H
 
+#include <QObject>
 #include <QRandomGenerator>
 #include <QDebug>
 #include "gamerect.h"
 #include "rectcoordinates.h"
 #include "scorechecker.h"
+#include <QTimer>
 
-class GameProcessor
+class GameProcessor : public QObject
 {
+    Q_OBJECT
 public:
-    static int newRectPosition(int max, QList<RectCoordinates*> *rectDim);
-    static int twoOrFour();
-    static void newGame(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim);
-    static int generateNewGameRect(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim);
-    static bool turnLeft(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim, ScoreChecker *score);
-    static bool turnRight(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim, ScoreChecker *score);
-    static bool turnUp(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim, ScoreChecker *score);
-    static bool turnDown(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim, ScoreChecker *score);
-    static void setColor(GameRect* rect);
+    explicit GameProcessor(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim, ScoreChecker *score, QObject *parent = nullptr);
+
+    int newRectPosition(int max);
+    void newGame();
+    int generateNewGameRect();
+    void turnLeft();
+    void turnRight();
+    void turnUp();
+    void turnDown();
+    void setColor(GameRect* rect);
+    Q_INVOKABLE void setInProcess(bool newInProcess);
+
+signals:
+    void movingXReady();
+    void movingYReady();
+    void endOfTurn();
+
+public slots:
+
+private slots:
+    void timeOut();
 private:
-    static int getFreeCellcount(QList<RectCoordinates*> *rectDim);
-    static void processingRight(int index, GameRect* rect, QList<GameRect*> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score);
-    static void processingLeft(int index, GameRect* rect, QList<GameRect*> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score);
-    static void processingUp(int index, GameRect* rect, QList<GameRect*> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score);
-    static void processingDown(int index, GameRect* rect, QList<GameRect*> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score);
-    static void setNewText(GameRect* rect, ScoreChecker *score);
+    void turnLeft2();
+    void turnLeft3();
+    void turnRight2();
+    void turnRight3();
+    void turnUp2();
+    void turnUp3();
+    void turnDown2();
+    void turnDown3();
+    int getFreeCellcount();
+    void processingRight(int index, GameRect* rect);
+    void processingLeft(int index, GameRect* rect);
+    void processingUp(int index, GameRect* rect);
+    void processingDown(int index, GameRect* rect);
+    void setNewText(GameRect* rect);
+    int twoOrFour();
+    void waitForAnimation();
+    int direction;
+    int stage;
+    bool inProcess;
+    QTimer* timer;
+    QList<GameRect*> *rectangles;
+    QList<RectCoordinates*> *rectDim;
+    ScoreChecker *score;
 };
 
 #endif // GAMEPROCESSOR_H

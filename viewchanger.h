@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QKeyEvent>
-#include <QTimer>
 #include "gamerect.h"
 #include "gameprocessor.h"
 #include "rectcoordinates.h"
@@ -18,6 +17,7 @@ public:
     QList<GameRect*> rectangles;
     QList<RectCoordinates*> rectDim;
     ScoreChecker *score;
+    GameProcessor *processor;
 
 signals:
     void gameOVER();
@@ -36,7 +36,6 @@ private:
     void checkView();
     void reporter01();
     void reporter02(int count);
-    QTimer *timer;
 };
 
 #endif // VIEWCHANGER_H
