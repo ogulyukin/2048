@@ -10,10 +10,11 @@ ViewChanger::ViewChanger(KeyboardFilter* filter, QObject *parent) : QObject(pare
         RectCoordinates *drect = new RectCoordinates(this);
         rectDim.append(drect);
     }
+    score = new ScoreChecker(this);
+    processor = new GameProcessor(&rectangles, &rectDim, score, this);
     connect(filter, &KeyboardFilter::nextTurn, this, &ViewChanger::makeTurn);
     turnProcessing = true;
-    timer = new QTimer(this);
-    score = new ScoreChecker(this);
+    connect(processor, &GameProcessor::endOfTurn, [=](){turnProcessing = false;});
 }
 
 void ViewChanger::newGame()
@@ -21,7 +22,7 @@ void ViewChanger::newGame()
     qDebug() << "**********************New game**********************";
     clearGameRect();
     score->resetScore();
-    GameProcessor::newGame(&rectangles, &rectDim);
+    processor->newGame();
     turnProcessing = false;
     score->newRectCount = -1;
 }
@@ -36,33 +37,31 @@ void ViewChanger::makeTurn(int direction)
     qDebug() << "Pressed key: " << direction;
     switch (direction) {
     case 0:
-        GameProcessor::turnLeft(&rectangles, &rectDim, score);
+        processor->turnLeft();
         break;
     case 1:
-        GameProcessor::turnRight(&rectangles, &rectDim, score);
+        processor->turnRight();
         break;
     case 2:
-        GameProcessor::turnUp(&rectangles, &rectDim, score);
+        processor->turnUp();
         break;
     case 3:
-        GameProcessor::turnDown(&rectangles, &rectDim, score);
+        processor->turnDown();
     }
     //reporter01();
-    timer->start(1000);
-    refreshView();
-    int result = GameProcessor::generateNewGameRect(&rectangles, &rectDim);
-    checkView();
-    timer->start(1000);
-    turnProcessing = false;
-    if(result == -1)
-    {
-        qDebug() << "MakeTurn: Game Over!";
-        score->endGame();
-    }else
-    {
-        //score->newRectCount = result;
-        //rectangles.at(result)->setColor("red");
-    }
+//    refreshView();
+//    //int result = processor->generateNewGameRect();
+//    checkView();
+//    turnProcessing = false;
+//    if(result == -1)
+//    {
+//        qDebug() << "MakeTurn: Game Over!";
+//        score->endGame();
+//    }else
+//    {
+//        //score->newRectCount = result;
+//        //rectangles.at(result)->setColor("red");
+//    }
 }
 
 void ViewChanger::clearGameRect()

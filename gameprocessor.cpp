@@ -1,6 +1,14 @@
 #include "gameprocessor.h"
 
-int GameProcessor::newRectPosition(int max, QList<RectCoordinates*> *rectDim)
+GameProcessor::GameProcessor(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim, ScoreChecker *score, QObject *parent): QObject(parent),
+    rectangles(rectangles), rectDim(rectDim), score(score)
+{
+    timer = new QTimer(this);
+    timer->setInterval(300);
+    connect(timer, &QTimer::timeout, this, &GameProcessor::timeOut);
+}
+
+int GameProcessor::newRectPosition(int max)
 { 
     int random = 1;
     if (max > 1)
@@ -15,6 +23,8 @@ int GameProcessor::newRectPosition(int max, QList<RectCoordinates*> *rectDim)
                 qDebug() << "Free cell: " << absoluteCount;
                 return absoluteCount;
             }
+            if(max == 1)
+                return absoluteCount;
             count++;
         }
         absoluteCount++;
@@ -30,18 +40,97 @@ int GameProcessor::twoOrFour()
     return value < 90 ? true : false;
 }
 
-void GameProcessor::newGame(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim)
+void GameProcessor::waitForAnimation()
 {
-    generateNewGameRect(rectangles, rectDim);
-    generateNewGameRect(rectangles, rectDim);
+    timer->start();
+    qDebug() << "Start timer 500 ms";
+    //inProcess = true;
 }
 
-int GameProcessor::generateNewGameRect(QList<GameRect*> *rectangles, QList<RectCoordinates*> *rectDim)
+void GameProcessor::setInProcess(bool newInProcess)
 {
-    int max = getFreeCellcount(rectDim);
+    inProcess = newInProcess;
+}
+
+void GameProcessor::timeOut()
+{
+    timer->stop();
+    qDebug() << "Stop timer";
+    if(stage == 3)
+    {
+        int result = generateNewGameRect();
+        if(result != -1)
+        {
+            emit endOfTurn();
+        }else
+        {
+            score->endGame();
+        }
+
+        return;
+    }
+    if(direction == 0)
+    {
+        if(stage == 1)
+        {
+            turnLeft2();
+            return;
+        }else
+        {
+            turnLeft3();
+            return;
+        }
+    }
+    if(direction == 1)
+    {
+        if(stage == 1)
+        {
+            turnRight2();
+            return;
+        }else
+        {
+            turnRight3();
+            return;
+        }
+    }
+    if(direction == 2)
+    {
+        if(stage == 1)
+        {
+            turnUp2();
+            return;
+        }else
+        {
+            turnUp3();
+            return;
+        }
+    }
+    if(direction == 3)
+    {
+        if(stage == 1)
+        {
+            turnDown2();
+            return;
+        }else
+        {
+            turnDown3();
+            return;
+        }
+    }
+}
+
+void GameProcessor::newGame()
+{
+    generateNewGameRect();
+    generateNewGameRect();
+}
+
+int GameProcessor::generateNewGameRect()
+{
+    int max = getFreeCellcount();
     if(max == 0)
         return -1;
-    int random = newRectPosition(max, rectDim);
+    int random = newRectPosition(max);
     if(random == -1 || random > 15)
     {
         qDebug() << "Error new random position: " << random;
@@ -59,7 +148,7 @@ int GameProcessor::generateNewGameRect(QList<GameRect*> *rectangles, QList<RectC
             it->setVisible(true);
 
             qDebug() << "New Rect " << count << " at: " << random << " Value: " << it->text();
-            max = getFreeCellcount(rectDim);
+            max = getFreeCellcount();
 
             return (max == 0 ? -1 : count);
         }
@@ -68,120 +157,179 @@ int GameProcessor::generateNewGameRect(QList<GameRect*> *rectangles, QList<RectC
     return -1;
 }
 
-bool GameProcessor::turnLeft(QList<GameRect *> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score)
+void GameProcessor::turnLeft()
 {
+    direction = 0;
     for(int i = 1; i < 16; i += 4){
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "**********************L i = " << i;
-            processingLeft(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingLeft(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
+    stage = 1;
+    waitForAnimation();
+}
+
+
+void GameProcessor::turnLeft2()
+{
     for(int i = 2; i < 15; i += 4)
     {
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << " ***********************Second L i = " << i;
-            processingLeft(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingLeft(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
+    stage = 2;
+    waitForAnimation();
+}
+
+void GameProcessor::turnLeft3()
+{
     for(int i = 3; i < 16; i += 4)
     {
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << " ************************Third L i = " << i;
-            processingLeft(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingLeft(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
-    return true;
+    stage = 3;
+    waitForAnimation();
 }
 
-bool GameProcessor::turnRight(QList<GameRect *> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score)
+void GameProcessor::turnRight()
 {
+    direction = 1;
     for(int i = 2; i < 16; i += 4){
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "**************************R i = " << i;
-            processingRight(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingRight(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
+    stage = 1;
+    waitForAnimation();
+}
+
+void GameProcessor::turnRight2()
+{
     for(int i = 1; i < 14; i += 4)
     {
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "************************** Second R i = " << i;
-            processingRight(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingRight(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
+    stage = 2;
+    waitForAnimation();
+}
+
+void GameProcessor::turnRight3()
+{
     for(int i = 0; i < 14; i += 4)
     {
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "**************************** Third R i = " << i;
-            processingRight(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingRight(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
-    return true;
+    stage = 3;
+    waitForAnimation();
 }
 
-bool GameProcessor::turnUp(QList<GameRect *> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score)
+void GameProcessor::turnUp()
 {
+    direction = 2;
     for(int i = 4; i < 8; i++){
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "***********************Up i = " << i;
-            processingUp(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingUp(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
+    stage = 1;
+    waitForAnimation();    
+}
+
+
+void GameProcessor::turnUp2()
+{
     for(int i = 8; i < 12; i++)
     {
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "*********************** Second Up i = " << i;
-            processingUp(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingUp(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
+    stage = 2;
+    waitForAnimation();
+}
+
+void GameProcessor::turnUp3()
+{
     for(int i = 12; i < 16; i++)
     {
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "*********************** Third Up i = " << i;
-            processingUp(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingUp(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
-    return true;
+    stage = 3;
+    waitForAnimation();
 }
 
-bool GameProcessor::turnDown(QList<GameRect *> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score)
+void GameProcessor::turnDown()
 {
+    direction = 3;
     for(int i = 8; i < 12; i++)
     {
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "*********************D i = " << i;
-            processingDown(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingDown(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
+    stage = 1;
+    waitForAnimation();
+}
+
+
+void GameProcessor::turnDown2()
+{
     for(int i = 4; i < 8; i++)
     {
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "********************* Second D i = " << i;
-            processingDown(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingDown(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
+    stage = 2;
+    waitForAnimation();
+}
+
+void GameProcessor::turnDown3()
+{
     for(int i = 0; i < 4; i++)
     {
         if(rectDim->at(i)->busy != -1)
         {
             qDebug() << "********************** Third D i = " << i;
-            processingDown(i, rectangles->at(rectDim->at(i)->busy),rectangles, rectDim, score);
+            processingDown(i, rectangles->at(rectDim->at(i)->busy));
         }
     }
-    return true;
+    stage = 3;
+    waitForAnimation();
 }
 
-int GameProcessor::getFreeCellcount(QList<RectCoordinates*> *rectDim)
+int GameProcessor::getFreeCellcount()
 {
     int count = 0;
     foreach(RectCoordinates* it, *rectDim){
@@ -192,7 +340,7 @@ int GameProcessor::getFreeCellcount(QList<RectCoordinates*> *rectDim)
     return count;
 }
 
-void GameProcessor::processingRight(int index, GameRect *rect, QList<GameRect*> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score)
+void GameProcessor::processingRight(int index, GameRect *rect)
 {
     int target = rectDim->at(index)->busy;
     qDebug() << "Working with cell: " << target;
@@ -207,7 +355,7 @@ void GameProcessor::processingRight(int index, GameRect *rect, QList<GameRect*> 
             if(rect->text() == rectangles->at(checkIndex)->text())
             {
                 rectangles->at(checkIndex)->setVisible(false);
-                setNewText(rect, score);
+                setNewText(rect);
                 qDebug() << "!!!Merging: delete " << checkIndex << " at " << cindex;
                 cindex++;
             }
@@ -224,7 +372,7 @@ void GameProcessor::processingRight(int index, GameRect *rect, QList<GameRect*> 
     }
 }
 
-void GameProcessor::processingLeft(int index, GameRect *rect, QList<GameRect*> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score)
+void GameProcessor::processingLeft(int index, GameRect *rect)
 {
     int target = rectDim->at(index)->busy;
     qDebug() << "Working with cell: " << target;
@@ -239,7 +387,7 @@ void GameProcessor::processingLeft(int index, GameRect *rect, QList<GameRect*> *
             if(rect->text() == rectangles->at(checkIndex)->text())
             {
                 rectangles->at(checkIndex)->setVisible(false);
-                setNewText(rect, score);
+                setNewText(rect);
                 cindex--;
                 qDebug() << "!!!Merging: delete " << checkIndex << " at " << cindex;
             }
@@ -257,7 +405,7 @@ void GameProcessor::processingLeft(int index, GameRect *rect, QList<GameRect*> *
     }
 }
 
-void GameProcessor::processingUp(int index, GameRect *rect, QList<GameRect*> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score)
+void GameProcessor::processingUp(int index, GameRect *rect)
 {
     int target = rectDim->at(index)->busy;
     qDebug() << "Working with cell: " << target;
@@ -272,7 +420,7 @@ void GameProcessor::processingUp(int index, GameRect *rect, QList<GameRect*> *re
             if(rect->text() == rectangles->at(checkIndex)->text())
             {
                 rectangles->at(checkIndex)->setVisible(false);
-                setNewText(rect, score);
+                setNewText(rect);
                 cindex -= 4;
                 qDebug() << "Merging: delete " << checkIndex << " at " << cindex;
             }
@@ -290,7 +438,7 @@ void GameProcessor::processingUp(int index, GameRect *rect, QList<GameRect*> *re
     }
 }
 
-void GameProcessor::processingDown(int index, GameRect *rect, QList<GameRect*> *rectangles, QList<RectCoordinates *> *rectDim, ScoreChecker *score)
+void GameProcessor::processingDown(int index, GameRect *rect)
 {
     int target = rectDim->at(index)->busy;
     qDebug() << "Working with cell: " << target;
@@ -305,7 +453,7 @@ void GameProcessor::processingDown(int index, GameRect *rect, QList<GameRect*> *
             if(rect->text() == rectangles->at(checkIndex)->text())
             {
                 rectangles->at(checkIndex)->setVisible(false);
-                setNewText(rect, score);
+                setNewText(rect);
                 cindex += 4;
                 qDebug() << "Merging: delete " << checkIndex << " at " << cindex;
             }
@@ -323,7 +471,7 @@ void GameProcessor::processingDown(int index, GameRect *rect, QList<GameRect*> *
     }
 }
 
-void GameProcessor::setNewText(GameRect *rect, ScoreChecker *score)
+void GameProcessor::setNewText(GameRect *rect)
 {
     rect->setText(QString::number(rect->text().toInt() * 2));
     score->setScore(rect->text().toInt());

@@ -59,6 +59,7 @@ void ScoreChecker::loadSettings()
     QSettings settings("Game2048", "Score");
     settings.beginGroup("MyScore");
     m_bestScore = settings.value("BestScore", QVariant(0)).toInt();
+    qDebug() << "Лучший счет:" << m_bestScore;
     settings.endGroup();
     emit bestScoreChanged();
 }
@@ -70,6 +71,7 @@ int ScoreChecker::bestScore() const
 
 void ScoreChecker::setBestScore(int newBestScore)
 {
+    qDebug() << "Старое значение лучшего счета: " << m_bestScore << " новое: " << newBestScore;
     if (m_bestScore == newBestScore)
         return;
     m_bestScore = newBestScore;

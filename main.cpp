@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
     }
     engine.rootContext()->setContextProperty("vchanger", &vchanger);
     engine.rootContext()->setContextProperty("scorecounter",vchanger.score);
+    engine.rootContext()->setContextProperty("processor", vchanger.processor);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

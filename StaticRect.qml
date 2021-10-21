@@ -4,5 +4,6 @@ Rectangle{
     width: (parent.width - 50)/4
     height: (parent.height - 110)/4
     color: "gray"
+    border.color: "gray"
     radius: 5
 }
